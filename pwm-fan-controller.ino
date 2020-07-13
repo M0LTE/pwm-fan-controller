@@ -9,9 +9,7 @@
 #define sensitivityFactor 5
 #define maxDuty 50
 
-//const byte OC1A_PIN = 9;
-
-const word PWM_FREQ_HZ = 25000; //Adjust this value to adjust the frequency
+const word PWM_FREQ_HZ = 25000; //Adjust this value to adjust the PWM frequency
 const word TCNT1_TOP = 16000000/(2*PWM_FREQ_HZ);
 
 OneWire oneWire(ONE_WIRE_BUS); 
@@ -46,7 +44,7 @@ void setup() {
   
   setPwmDuty(0);
   Serial.begin(9600); 
-  Serial.println("<25kHz PWM signal on Pin 9. One or more DS18B20 expected on Pin 10. When there are no sensors, pin 8 goes high and PWM goes to 100% duty. When above the setpoint, pin 13 (built-in LED) comes on.>");
+  Serial.println("<25kHz PWM signal on Pin 9. Connect directly to blue wire on JC972 fans. One or more DS18B20 expected on Pin 10. When there are no sensors, pin 8 goes high and PWM goes to 100% duty. When above the setpoint, pin 13 (built-in LED) comes on.>");
 }
 
 void loop() {
