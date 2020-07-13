@@ -5,8 +5,8 @@
 #define FAULT_LED 8
 #define ONE_WIRE_BUS 10
 #define OC1A_PIN 9
-#define setpoint 30.0
-#define sensitivityFactor 5
+#define setpoint 25.0
+#define sensitivityFactor 3
 #define maxDuty 50
 
 const word PWM_FREQ_HZ = 25000; //Adjust this value to adjust the PWM frequency
@@ -44,7 +44,7 @@ void setup() {
   
   setPwmDuty(0);
   Serial.begin(9600); 
-  Serial.println("<25kHz PWM signal on Pin 9. Connect directly to blue wire on JC972 fans. One or more DS18B20 expected on Pin 10. When there are no sensors, pin 8 goes high and PWM goes to 100% duty. When above the setpoint, pin 13 (built-in LED) comes on.>");
+  Serial.println("<25kHz PWM signal on Pin 9. Connect directly to blue wire on JC972 fans. One or more DS18B20 expected on Pin 10, 4k7 resistor from VCC to Data. When there are no sensors, pin 8 goes high and PWM goes to 100% duty. When above the setpoint, pin 13 (built-in LED) comes on.>");
 }
 
 void loop() {
@@ -60,8 +60,9 @@ void loop() {
   }
 
   if (tempC == -50){
-    setPwmDuty(maxDuty);
+    setPwmDuty(100);
     digitalWrite(FAULT_LED, HIGH);
+    Serial.println("Fault - no sensors. Fan set to max.");
   } else {
     digitalWrite(FAULT_LED, LOW);
     
@@ -102,7 +103,7 @@ void loop() {
     setPwmDuty(duty);
   }
 
-  delay(500);
+  delay(1000);
 }
 
 void setPwmDuty(byte duty) {
